@@ -1,0 +1,71 @@
+.main {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 87%;
+}
+
+table {
+    width: 100%;
+}
+
+
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+  }
+
+/* ng-container{
+    word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 28% !important;
+  width: 20% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+} */
+
+.mat-column-FIO {
+    width: 30%;
+}
+.mat-column-Post {
+    width: 20%;
+}
+.mat-column-Email {
+    width: 20%;
+}
+.mat-column-Edit {
+    width: 5%;
+}
+.mat-column-Delete {
+    width: 5%;
+}
+
+.control-panel{
+    display: flex;
+    justify-content: space-between;
+    vertical-align: center;
+}
+
+
+
+.crud-persons {
+    width: 90%;
+    margin: auto;
+}
+.persons-table{
+    display: flex; 
+    justify-content: center;
+}
+

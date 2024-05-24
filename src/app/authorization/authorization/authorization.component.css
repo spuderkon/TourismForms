@@ -1,0 +1,40 @@
+::ng-deep html, body{
+    height: 80vh !important;
+}
+
+mat-card{
+    min-width: 30vh;
+    background-color: #dfe9f3;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-card-actions {
+    
+    display: flex;
+    justify-content: center;
+}
+
+mat-progress-bar {
+    position: absolute;
+    bottom: 0;
+}
+
+.authorization {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    position: relative;
+    top: 20%;
+}
+
+.authorization-card {
+    max-width: 30vw;
+    min-height: 100%;
+}
+
+.authorization-card-content {
+    margin-left: 2vh;
+}

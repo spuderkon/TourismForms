@@ -1,0 +1,121 @@
+<form [formGroup]="formGroup">
+  <main class="main">
+    <h1>Наименование</h1>
+    <div>
+        <mat-form-field appearance="outline" class="example-form-field">
+            <mat-label>Наименование</mat-label>
+            <input matInput type="text" formControlName="Name">
+           
+        </mat-form-field>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Критерии</h1>
+        <button mat-icon-button (click)="addNewCriteria()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
+    <div formArrayName="Criterias">
+
+      <mat-accordion class="example-headers-align" multi *ngFor="let criteria of criteriasFormArr.controls; let i = index" [formGroupName]="i">
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                <label [textContent]="criteria.value.Name"></label>
+            </mat-panel-title>
+            <div style="margin-right: 3vw;">
+              <button mat-icon-button (click)="increaseCriteriaSequence(i, $event)" >
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+              <button mat-icon-button (click)="decreaseCriteriaSequence(i, $event)">
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+            </div>
+          </mat-expansion-panel-header>
+      
+          <div >
+            <mat-form-field>
+                <mat-label>Наименование</mat-label>
+                <input matInput formControlName="Name">
+              </mat-form-field>
+              
+              <label> Порядок: {{criteria.value.Sequence}}</label>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>Вопросы</h3>
+                <button mat-icon-button (click)="addNewQuestion(i)">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <div formArrayName="Questions">
+              <mat-accordion class="example-headers-align" multi *ngFor="let question of questionsFormArr(i).controls; let j = index" [formGroupName]="j">
+
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <label>{{question.value.Name}} Порядок {{question.value.Sequence}}</label>
+                    </mat-panel-title>
+                    <div style="margin-right: 3vw;">
+                      <button mat-icon-button (click)="increaseQuestionSequence(i, j, $event)" >
+                        <mat-icon>arrow_upward</mat-icon>
+                      </button>
+                      <button mat-icon-button (click)="decreaseQuestionSequence(i, j, $event)">
+                        <mat-icon>arrow_downward</mat-icon>
+                      </button>
+                    </div>
+                  </mat-expansion-panel-header>
+              
+                  <div style="display: flex; align-items: start;">
+                    <mat-form-field>
+                        <mat-label>Наименование</mat-label>
+                        <input matInput formControlName="Name">
+                    </mat-form-field>
+            
+                    <mat-form-field>
+                        <mat-label>Ед. измерения</mat-label>
+                        <mat-select formControlName="MeasureId">
+                          <mat-option *ngFor="let item of measures" [value]="item.id">{{item.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="!question.value.Hidden">
+                        <mat-label>Способ заполнения</mat-label>
+                        <mat-select formControlName="FillMethodId">
+                          <mat-option *ngFor="let item of fillMethods" [value]="item.id">{{item.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Формула</mat-label>
+                        <input matInput formControlName="Formula">
+                    </mat-form-field>
+
+                    <mat-form-field style="width: 400px;">
+                        <mat-label>Подсказка</mat-label>
+                        <input matInput formControlName="Hint">
+                    </mat-form-field>
+
+                    <mat-checkbox formControlName="Hidden">Спрятан</mat-checkbox>
+                  </div>
+
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+
+          <!-- <mat-action-row>
+            <button mat-button color="primary">Next</button>
+          </mat-action-row> -->
+        </mat-expansion-panel>
+      
+    </mat-accordion>
+    
+    </div>
+    <button mat-button style="margin: 20px;" (click)="Save(null)">
+        Сохранить
+    </button>
+</main>
+</form>

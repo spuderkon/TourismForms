@@ -1,0 +1,57 @@
+<form [formGroup]="formGroup">
+    <main class="main">
+      <h1>Наименование</h1>
+      <div>
+        <mat-label></mat-label>
+      </div>
+      <div>
+          <h1>Критерии</h1>
+      </div>
+      <div formArrayName="Criterias">
+
+        <mat-accordion class="example-headers-align" multi *ngFor="let criteria of criteriasFormArr.controls; let i = index" [formGroupName]="i">
+  
+          <mat-expansion-panel style="margin-bottom: 0.7vh;">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <label>{{criteria.value.Name}} | Порядок: {{criteria.value.Sequence}}</label>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              <h3>Вопросы</h3>
+              <div formArrayName="Questions">
+                <mat-accordion class="example-headers-align" multi *ngFor="let question of questionsFormArr(i).controls; let j = index" [formGroupName]="j">
+  
+                  <mat-expansion-panel style="margin-bottom: 0.4vh;">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                          <label>{{question.value.Name}} | {{question.value.MeasureName}}</label>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                
+                    <div style="display: block;">
+  
+                      <p >
+                        <mat-label>Подсказка: {{question.value.Hint}}</mat-label>
+                      </p>
+                    
+                      <mat-form-field style="height: 100%;">
+                        <mat-label>Ваш ответ:</mat-label>
+                        <input matInput formControlName="Answer">
+                    </mat-form-field>
+                    </div>
+  
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        
+      </mat-accordion>
+      
+      </div>
+      <button mat-button style="margin: 20px;" (click)="saveAnswers()">
+          Сохранить
+      </button>
+  </main>
+  </form>
