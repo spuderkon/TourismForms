@@ -335,16 +335,27 @@
   <mat-drawer-container autosize>
     <mat-drawer mode="push" closed #drawer >
       <mat-nav-list>
-        <mat-list-item routerLink="/forms">
+        <mat-list-item routerLink="/forms" *ngIf="authService.isAdmin">
           <label>Формы</label>
         </mat-list-item>
         <mat-list-item routerLink="/surveys">
           <label>Анкеты</label>
         </mat-list-item>
+        <mat-list-item routerLink="/admin/surveys" *ngIf="authService.isAdmin">
+          <label>Все анкеты</label>
+        </mat-list-item>
+        <mat-list-item routerLink="/crud/measure" *ngIf="authService.isAdmin">
+          <label>Справочник Ед. измерения</label>
+        </mat-list-item>
+        <mat-list-item routerLink="/crud/fillMethod" *ngIf="authService.isAdmin">
+          <label>Справочник Способ заполнения</label>
+        </mat-list-item>
+        <mat-list-item routerLink="/crud/municipality" *ngIf="authService.isAdmin">
+          <label>Справочник Муниципалитет</label>
+        </mat-list-item>
         <mat-list-item (click)="logout()">
           <mat-icon>logout</mat-icon>
         </mat-list-item>
-
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content style="height: 100vh;">

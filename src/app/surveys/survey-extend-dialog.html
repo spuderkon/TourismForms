@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Продление</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Выберите дату</mat-label>
+    <input matInput [matDatepicker]="datepicker" [formControl]="completionDate">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker>
+        <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+        </mat-datepicker-actions>
+    </mat-datepicker>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button mat-button [disabled]="completionDate.hasError('required')" (click)="complete()">Продолжить</button>
+</div>

@@ -1,0 +1,32 @@
+<h2 mat-dialog-title *ngIf="data.id != -1">Редактирование муниципалитета</h2>
+<h2 mat-dialog-title *ngIf="data.id == -1">Создание едницы</h2>
+<div mat-dialog-content>
+    <form [formGroup]="municipalityForm">
+        <mat-form-field style="width:100%;">
+            <mat-label>Наименование</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field style="width:100%;">
+            <mat-label>Регион</mat-label>
+            <mat-select formControlName="regionId">
+                <mat-option *ngFor="let item of regionsToDisplay" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field style="width:100%;">
+            <mat-label>Эл.почта</mat-label>
+            <input matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field style="width:100%;">
+            <mat-label>Админ</mat-label>
+            <mat-select formControlName="isAdmin">
+                <mat-option [value]="true">true</mat-option>
+                <mat-option [value]="false">false</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Отмена</button>
+  <button mat-button [disabled]="!municipalityForm.valid" (click)="updateMunicipality()" *ngIf="data.id != -1">Сохранить</button>
+  <button mat-button [disabled]="!municipalityForm.valid" (click)="createMunicipality()" *ngIf="data.id == -1">Сохранить</button>
+</div>

@@ -1,0 +1,13 @@
+<h2 mat-dialog-title *ngIf="data.id != -1">Редактирование едницы - "{{data.name}}"</h2>
+<h2 mat-dialog-title *ngIf="data.id == -1">Создание едницы</h2>
+<div mat-dialog-content>
+  <mat-form-field style="width:100%;">
+    <mat-label>Наименование</mat-label>
+    <input matInput [formControl]="measureName" [placeholder]="data.name">
+</mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Отмена</button>
+  <button mat-button [disabled]="measureName.hasError('required')" (click)="updateMeasure()" *ngIf="data.id != -1">Сохранить</button>
+  <button mat-button [disabled]="measureName.hasError('required')" (click)="createMeasure()" *ngIf="data.id == -1">Сохранить</button>
+</div>

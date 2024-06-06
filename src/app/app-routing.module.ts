@@ -5,13 +5,16 @@ import { IsSignedInAuthGuard } from '../guards/isSignedInAuthGuard/is-signed-in-
 import { AuthGuard } from '../guards/authGuard/auth.guard';
 import { SurveysComponent } from './surveys/surveys.component';
 
-import { FormsComponent } from './forms/forms/forms.component';
+import { FormsComponent } from './forms/forms.component';
 
-import { SurveyComponent } from './survey/survey/survey.component';
-import { AuthorizationComponent } from './authorization/authorization/authorization.component';
-import { FormComponent } from './form/form/form.component';
-import { IsCreateParamGuard } from '../guards/IsCreateParamGuard/is-create-param.guard';
-import { IsNumberParamGuard } from '../guards/IsNumberParamGuard/is-number-param.guard';
+import { SurveyComponent } from './survey/survey.component';
+import { AuthorizationComponent } from './authorization/authorization.component';
+import { FormComponent } from './form/form.component';
+import { FormGuard } from '../guards/formGuard/form.guard';
+import { SurveyGuard } from '../guards/surveyGuard/survey.guard';
+import { FillMethodComponent } from './crud/fill-method/fill-method.component';
+import { MeasureComponent } from './crud/measure/measure.component';
+import { MunicipalityComponent } from './crud/municipality/municipality.component';
 
 //, data: {isAdmin: ['true','false']}
 
@@ -19,11 +22,17 @@ export const routes: Routes = [
   {path: "auth", component:AuthorizationComponent, canActivate:[IsSignedInAuthGuard]}, 
   {path: "forms", component:FormsComponent, canActivate:[AuthGuard]},
   {path: "surveys", component:SurveysComponent, canActivate:[AuthGuard]},
-  {path: "survey/:id", component:SurveyComponent, canActivate:[AuthGuard, IsNumberParamGuard]},
-  {path: "form/:id", component:FormComponent, canActivate:[AuthGuard, IsNumberParamGuard]},
+  {path: "admin/surveys", component:SurveysComponent, canActivate:[AuthGuard]},
+  {path: "survey/:id", component:SurveyComponent, canActivate:[AuthGuard, SurveyGuard]},
+  {path: "admin/survey/:id", component:SurveyComponent, canActivate:[AuthGuard, SurveyGuard]},
+  {path: "survey/:id/edit", component:SurveyComponent, canActivate:[AuthGuard, SurveyGuard]},
+  {path: "form/:id", component:FormComponent, canActivate:[AuthGuard, FormGuard]},
   {path: "form/create", component:FormComponent, canActivate:[AuthGuard]},
-  {path: "", redirectTo: "/surveys", pathMatch: "full"},
-  {path: "**", component:SurveysComponent, canActivate:[AuthGuard]},
+  {path: "crud/measure", component:MeasureComponent, canActivate:[AuthGuard]},
+  {path: "crud/fillMethod", component:FillMethodComponent, canActivate:[AuthGuard]},
+  {path: "crud/municipality", component:MunicipalityComponent, canActivate:[AuthGuard]},
+  {path: "", redirectTo: "surveys", pathMatch: "full"},
+  {path: "**", redirectTo: "surveys", pathMatch: "full"},
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

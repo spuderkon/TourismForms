@@ -10,7 +10,7 @@ import { AuthService } from '../services/authService/auth.service';
 export class AppComponent {
   title = 'TourismForms';
 
-  constructor(private authService: AuthService,protected router: Router){
+  constructor(public authService: AuthService,protected router: Router){
 
   }
 

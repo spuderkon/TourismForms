@@ -1,0 +1,21 @@
+table {
+    width: 100%;
+}
+
+.control-panel{
+    display: flex;
+    justify-content: space-between;
+    vertical-align: center;
+}
+
+.crud-persons {
+    width: 90%;
+    margin: auto;
+    margin-top: 1.5vw;
+}
+
+.persons-table{
+    display: flex; 
+    justify-content: center;
+}
+

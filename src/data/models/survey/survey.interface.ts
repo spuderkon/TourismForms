@@ -16,6 +16,7 @@ export interface Survey {
     municipalityId: number;
     city: string;
     cityId: number;
+    comment: string;
     answers: Answer[];
     cityNavigation: City;
     form: Form;

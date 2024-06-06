@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>На доработку</h2>
+<div mat-dialog-content style="display: grid;">
+    <mat-form-field>
+        <mat-label>Выберите дату</mat-label>
+        <input matInput [matDatepicker]="datepicker" [formControl]="completionDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker>
+           
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Комментарий</mat-label>
+        <input matInput [formControl]="comment">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button mat-button [disabled]="completionDate.hasError('required') || comment.hasError('required')" (click)="complete()">Продолжить</button>
+</div>

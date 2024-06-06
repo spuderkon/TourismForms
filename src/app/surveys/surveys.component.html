@@ -8,7 +8,7 @@
       </div>
       <mat-divider></mat-divider>
       <div class="requests-container">
-          <mat-card class="example-card" *ngFor="let item of mySurveys; let i = index" [routerLink]="['/survey', item.id]">
+          <mat-card class="example-card" *ngFor="let item of surveysToDiplay; let i = index" (dblclick)="routeToSurvey(item.id)">
               <mat-card-header>
                 <mat-card-title>{{item.form.name}}</mat-card-title>
               </mat-card-header>
@@ -27,9 +27,11 @@
                   <label>{{item.endDate | date : "EE, d MMMM H:mm"}}</label>
                 </p>
               </mat-card-content>
-              <mat-card-actions>
-                <button mat-button>Отчёт</button>
-                <button mat-button>Отозвать</button>
+              <mat-card-actions *ngIf="router.url == '/admin/surveys'">
+                <button mat-button (click)="report(item)" download>Отчёт</button>
+                <button mat-button *ngIf="!item.completed" (click)="recall(item)">Отозвать</button>
+                <button mat-button *ngIf="item.completed" (click)="extend(item)">Продлить</button>
+                <button mat-button *ngIf="item.completed" (click)="revision(item)">На доработку</button>
               </mat-card-actions>
             </mat-card>
       </div>

@@ -50,8 +50,8 @@ export class AuthService {
     let password: string = bytes.toString(crypto.enc.Utf8);
     this.httpClient.post(this.url + '/Authorize?login='+login+"&password="+password, null).subscribe({
       next: (data: any) => {
-        console.log(data.token);
-        this.setSession(data.token, login, password);
+        console.log(data.Token);
+        this.setSession(data.Token, login, password);
       },
       error: (error) => {
         this.logout();

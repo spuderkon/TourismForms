@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>Вы действительно хотите удалить - {{data.name}}</h2>
+<div mat-dialog-content>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="undefined">Отмена</button>
+  <button mat-button (click)="deleteMunicipality()">Продолжить</button>
+</div>
