@@ -37,7 +37,7 @@
                     
                       <mat-form-field style="height: 100%;" *ngIf="!isAdminPage">
                         <mat-label>Ваш ответ:</mat-label>
-                        <input matInput formControlName="Answer">
+                        <input matInput formControlName="Answer" type="number">
                       </mat-form-field>
                       <mat-label *ngIf="isAdminPage">Ответ : {{criteria.value.Answer}}</mat-label>
                     </div>

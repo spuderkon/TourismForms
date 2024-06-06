@@ -28,6 +28,8 @@ export class SurveyComponent {
   public form!: Form;
   public formGroup: FormGroup;
 
+  public answersExist: boolean;
+
   constructor(private formSerive: FormService, private answerService: AnswerService, private surveyService: SurveyService, public router: Router, 
               private route:ActivatedRoute, private formBuilder : FormBuilder){
     this.measures = new Array<Measure>();
@@ -55,7 +57,8 @@ export class SurveyComponent {
           ])
         })
       ]),
-    })
+    });
+    this.answersExist = false;
   }
 
   ngOnInit(): void {
@@ -122,8 +125,10 @@ export class SurveyComponent {
         MeasureName: new FormControl(question.measure?.name),
         SurveyId: this.idParam,
         Answer: new FormControl(question.answers.find(a => a.questionId == question.id)?.text, Validators.required),
+        
       }))
-    })
+    });
+    this.answersExist = criteria.questions.at(0)?.answers.find(a => a.questionId == criteria.questions.at(0)?.id && a.surveyId == Number(this.idParam)) == null
     return arr;
   }
 
@@ -159,14 +164,15 @@ export class SurveyComponent {
     });
   }
   public send(): void{
-    this.surveyService.submitForEvaluation(this.form.id).subscribe({
-      next: (data) =>{
-        this.router.navigate(["surveys"]);
+    this.saveAnswers();
+    this.surveyService.submitForEvaluation(Number(this.idParam)).subscribe({
+      next: (data) => {
+        //this.router.navigate(["surveys"]);
       },
-      error(err) {
-        console.log(err);
+      error: (error) => {
+        console.log(error);
       },
-    })
+    });
   }
 
   public getLetterByNumber(number: any) {

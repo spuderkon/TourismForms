@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'TourismForms';
 
   constructor(public authService: AuthService,protected router: Router){
-
+    
   }
 
   logout(): void{

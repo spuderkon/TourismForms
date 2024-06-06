@@ -34,7 +34,6 @@ export class SurveysComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.surveysToDiplay = data;
-        console.log(this.surveysToDiplay);
       },
       error: (error) => {
         console.log(error);
@@ -62,7 +61,7 @@ export class SurveysComponent implements OnInit {
   }
 
   public report(survey: Survey): void{
-    this.surveySerive.getExcel(survey.formId).subscribe({
+    this.surveySerive.getExcel(survey.id).subscribe({
       next: (data) =>{
         let fileName = data.headers.get('content-disposition')?.split(';')[1].split('=')[1];
         let blob: Blob = data.body as Blob;
@@ -104,9 +103,11 @@ export class SurveysComponent implements OnInit {
 export class SurveyExtendDialog implements OnInit {
 
   public completionDate: FormControl;
+  public minDate : string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Survey, public dialogRef: MatDialogRef<SurveyExtendDialog>, private surveyService: SurveyService){
     this.completionDate = new FormControl(null, Validators.required);
+    this.minDate = moment(new Date()).format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {
@@ -133,10 +134,12 @@ export class SurveyRevisionDialog implements OnInit {
 
   public completionDate: FormControl;
   public comment: FormControl;
+  public minDate : string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Survey, public dialogRef: MatDialogRef<SurveyRevisionDialog>, private surveyService: SurveyService){
     this.completionDate = new FormControl(null, Validators.required);
     this.comment = new FormControl(null, Validators.required);
+    this.minDate = moment(new Date()).format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {

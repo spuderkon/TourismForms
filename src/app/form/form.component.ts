@@ -110,22 +110,30 @@ export class FormComponent implements OnInit, OnChanges {
     let sequencesAsLetterAsString = "";
     this.criteriaSequences.forEach((value: string, key: number) => {
       let i = 0
-      sequencesAsNumAsString += `([${key}][1-${value}])`;
-      sequencesAsLetterAsString += `([${this.getLetterByNumber(key)}][1-${value}])`;
-      if(i+1 >= this.criteriaSequences.size){
-        sequencesAsNumAsString += `|`;
+      if(value == "0"){
+        sequencesAsNumAsString += `([${key}])`;
+        sequencesAsLetterAsString += `([${this.getLetterByNumber(key)}])`;
+        
       }
+        
+      else{
+        sequencesAsNumAsString += `([${key}][1-${value}])`;
+        sequencesAsLetterAsString += `([${this.getLetterByNumber(key)}][1-${value}])`;
+        
+      }
+
+      
       i++;
     });
     //^(([А-Я]\d+)|(\d+(\.\d+)?))(([\+\-\*\/]{1})(([А-Я]\d+)|(\d+(\.\d+)?)))*$
     console.log(sequencesAsNumAsString);
     console.log(sequencesAsLetterAsString);
-    this.formulaPattern = `^((${sequencesAsLetterAsString})|(${sequencesAsNumAsString}?))(([\\+\\-\\*\\/]{1})((${sequencesAsLetterAsString})|(${sequencesAsNumAsString}?)))*$`
+    this.formulaPattern = `^=0|((${sequencesAsLetterAsString})|(${sequencesAsNumAsString}?))(([\+\\-\\*\\/]{1})((${sequencesAsLetterAsString})|(${sequencesAsNumAsString}?)))*$`
     console.log(this.formulaPattern);
     this.criteriasFormArr.controls.forEach((criteriaControl, index) => {
       let criteria = criteriaControl.value;
       this.questionsFormArr(index).controls.forEach((questionControl) => {
-        questionControl.get("Formula")?.setValidators([Validators.pattern(this.formulaPattern)]);
+        questionControl.get("Formula")!.setValidators([Validators.pattern(this.formulaPattern)]);
       });
     });
   }

@@ -34,7 +34,7 @@ export class AuthService {
     const decodedToken = this.getDecodedToken();
     localStorage.setItem('login', login);
     localStorage.setItem('password', encrypted.toString());
-    localStorage.setItem('role', decodedToken.role);
+    localStorage.setItem('IsAdmin', decodedToken.IsAdmin);
     localStorage.setItem('id', decodedToken.id)
     localStorage.setItem("expires_At", JSON.stringify(decodedToken.exp * 1000));
   }
@@ -97,7 +97,23 @@ export class AuthService {
     return String(localStorage.getItem('role'));
   }
 
+  public isAdminString(): string {
+    return String(localStorage.getItem('IsAdmin'));
+  }
+
   public isAdmin(): boolean {
-    return String(localStorage.getItem('isAdmin')) == 'admin';
+    if (typeof window == 'undefined') {
+    return false;
+    }
+    else{
+    return localStorage.getItem('IsAdmin') == "True";
+    }
+  }
+
+  checkUserAccess(availableRoles: string[], currentRole: string): boolean {
+    if (availableRoles.includes(currentRole)) {
+      return true
+    }
+    return false;
   }
 }

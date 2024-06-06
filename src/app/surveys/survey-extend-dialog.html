@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <mat-form-field>
     <mat-label>Выберите дату</mat-label>
-    <input matInput [matDatepicker]="datepicker" [formControl]="completionDate">
+    <input matInput [matDatepicker]="datepicker" [formControl]="completionDate" [min]="minDate">
     <mat-hint>MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
     <mat-datepicker #datepicker>

@@ -11,10 +11,15 @@ export const AuthGuard: CanActivateFn = (route, state) => {
   }
   else{
     if(authService.isLoggedIn()){
-      return true;
+      const url: string = state.url;
+      const availability: string[] = route.data['IsAdmin'];
+      const currentAvailability: string = authService.isAdminString();
+      return authService.checkUserAccess(availability, currentAvailability)
     }
     router.navigate(['/auth']);
     return false;
   }
  return false;
+ 
 };
+

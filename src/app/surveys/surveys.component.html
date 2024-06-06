@@ -1,5 +1,5 @@
 <div class="requests">
-  <div class="active-requests">
+  <div>
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h1>Недавние анкеты:</h1>
       <button mat-icon-button routerLink="/form/create">
@@ -7,10 +7,12 @@
       </button>
       </div>
       <mat-divider></mat-divider>
-      <div class="requests-container">
+      <div class="surveys-container">
           <mat-card class="example-card" *ngFor="let item of surveysToDiplay; let i = index" (dblclick)="routeToSurvey(item.id)">
               <mat-card-header>
-                <mat-card-title>{{item.form.name}}</mat-card-title>
+                <mat-card-title>{{item.form.name}}
+                  <button mat-icon-button *ngIf="!item.completed && router.url == '/admin/surveys'" (click)="recall(item)"><mat-icon>delete</mat-icon></button>
+                </mat-card-title>
               </mat-card-header>
               <img mat-card-image src="assets/images/document.png" alt="Photo of a Shiba Inu">
               <mat-card-content>
@@ -27,9 +29,8 @@
                   <label>{{item.endDate | date : "EE, d MMMM H:mm"}}</label>
                 </p>
               </mat-card-content>
-              <mat-card-actions *ngIf="router.url == '/admin/surveys'">
+              <mat-card-actions align="end" *ngIf="router.url == '/admin/surveys'">
                 <button mat-button (click)="report(item)" download>Отчёт</button>
-                <button mat-button *ngIf="!item.completed" (click)="recall(item)">Отозвать</button>
                 <button mat-button *ngIf="item.completed" (click)="extend(item)">Продлить</button>
                 <button mat-button *ngIf="item.completed" (click)="revision(item)">На доработку</button>
               </mat-card-actions>
