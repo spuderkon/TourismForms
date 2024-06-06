@@ -35,7 +35,7 @@
                         <mat-label>Подсказка: {{question.value.Hint}}</mat-label>
                       </p>
                     
-                      <mat-form-field style="height: 100%;" *ngIf="!isAdminPage">
+                      <mat-form-field style="height: 100%; width: 100%;" *ngIf="!isAdminPage">
                         <mat-label>Ваш ответ:</mat-label>
                         <input matInput formControlName="Answer" type="number">
                       </mat-form-field>

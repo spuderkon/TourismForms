@@ -31,6 +31,9 @@
               <button mat-icon-button (click)="decreaseCriteriaSequence(i, $event)">
                 <mat-icon>arrow_downward</mat-icon>
               </button>
+              <button mat-icon-button (click)="removeCriteriaGroup(i)" *ngIf="router.url == '/form/create'">
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
           </mat-expansion-panel-header>
       
@@ -65,6 +68,9 @@
                       <button mat-icon-button (click)="decreaseQuestionSequence(i, j, $event)">
                         <mat-icon>arrow_downward</mat-icon>
                       </button>
+                      <button mat-icon-button (click)="removeQuestionGroup(i, j)" *ngIf="router.url == '/form/create'">
+                        <mat-icon>delete</mat-icon>
+                      </button>
                     </div>
                   </mat-expansion-panel-header>
               
@@ -91,6 +97,7 @@
                     <mat-form-field>
                         <mat-label>Формула</mat-label>
                         <input matInput formControlName="Formula">
+                        <mat-error *ngIf="formulaIsValid(i,j)">Например =А1+Б2*2\100</mat-error>
                     </mat-form-field>
 
                     <mat-form-field style="width: 400px;">
@@ -120,8 +127,6 @@
     <button mat-button style="margin: 20px;" (click)="saveNew()" *ngIf="idParam == 'create'">
       Сохранить
     </button>
-    <button mat-button style="margin: 20px;" (click)="test()">
-      TEST
-    </button>
+    
 </main>
 </form>

@@ -37,7 +37,7 @@ export class FormComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
 
   constructor(private formSerive: FormService, private measureService: MeasureService, private fillMethodService: FillMethodService, 
-              private route:ActivatedRoute, private router: Router,private formBuilder : FormBuilder, private criteriaService: CriteriaService,
+              private route:ActivatedRoute, public router: Router,private formBuilder : FormBuilder, private criteriaService: CriteriaService,
               private questionService: QuestionService){
     
     this.measures = new Array<Measure>();
@@ -98,7 +98,7 @@ export class FormComponent implements OnInit, OnChanges {
   }
 
   test(): void{
-    this.updatePattern();
+   this.updatePattern();
   }
   
   private updatePattern(): void{
@@ -106,30 +106,28 @@ export class FormComponent implements OnInit, OnChanges {
       let criteria = control.value;
       this.criteriaSequences.set(criteria.Sequence, criteria.Questions.length)
     });
-    let sequencesAsNumAsString = "";
     let sequencesAsLetterAsString = "";
     this.criteriaSequences.forEach((value: string, key: number) => {
       let i = 0
       if(value == "0"){
-        sequencesAsNumAsString += `([${key}])`;
         sequencesAsLetterAsString += `([${this.getLetterByNumber(key)}])`;
-        
+        if(i+1 != this.criteriaSequences.size)
+        {
+          sequencesAsLetterAsString += '|';
+        }
       }
-        
       else{
-        sequencesAsNumAsString += `([${key}][1-${value}])`;
         sequencesAsLetterAsString += `([${this.getLetterByNumber(key)}][1-${value}])`;
-        
+        if(i+1 < this.criteriaSequences.size)
+        {
+            sequencesAsLetterAsString += '|';
+        }
       }
-
-      
       i++;
     });
-    //^(([А-Я]\d+)|(\d+(\.\d+)?))(([\+\-\*\/]{1})(([А-Я]\d+)|(\d+(\.\d+)?)))*$
-    console.log(sequencesAsNumAsString);
-    console.log(sequencesAsLetterAsString);
-    this.formulaPattern = `^=0|((${sequencesAsLetterAsString})|(${sequencesAsNumAsString}?))(([\+\\-\\*\\/]{1})((${sequencesAsLetterAsString})|(${sequencesAsNumAsString}?)))*$`
-    console.log(this.formulaPattern);
+    sequencesAsLetterAsString = sequencesAsLetterAsString.substring(0,sequencesAsLetterAsString.length-1)
+    //^(([А-Я]\d+)|(\d+(\.\d+)?))(([\+\-\*\/]{1})(([А-Я]\d+)|(\d+(\.\d+)?)))*$ |(\d+(\.\d+)?
+    this.formulaPattern = `^=((${sequencesAsLetterAsString})|(\\d+(\\.\\d+)?))(([\+\\-\\*\\/]{1})((${sequencesAsLetterAsString})|(\\d+(\\.\\d+)?)))*$`;
     this.criteriasFormArr.controls.forEach((criteriaControl, index) => {
       let criteria = criteriaControl.value;
       this.questionsFormArr(index).controls.forEach((questionControl) => {
@@ -148,6 +146,7 @@ export class FormComponent implements OnInit, OnChanges {
         next: (data) => {
           this.form = data;
           this.setFormGroup(this.form);
+          this.updatePattern();
         },
         error: (error) => {
           console.log(error);
@@ -221,7 +220,7 @@ export class FormComponent implements OnInit, OnChanges {
     }
   }
 
-  private removeCriteriaGroup(index: number) {
+  public removeCriteriaGroup(index: number) {
     this.criteriasFormArr.removeAt(index);
   }
 
@@ -230,7 +229,6 @@ export class FormComponent implements OnInit, OnChanges {
     if(index != 0){
       const questionTmp = this.questionsFormArr(criteriaId).at(index);
       questionTmp.value.Sequence = index;
-      console.log(questionTmp.value);
       this.removeQuestionGroup(criteriaId, index)
       this.questionsFormArr(criteriaId).insert(index-1, questionTmp)
       this.questionsFormArr(criteriaId).at(index).value.Sequence = index + 1;
@@ -248,7 +246,7 @@ export class FormComponent implements OnInit, OnChanges {
     }
   }
 
-  private removeQuestionGroup(criteriaId: number, index: number) {
+  public removeQuestionGroup(criteriaId: number, index: number) {
     this.questionsFormArr(criteriaId).removeAt(index);
   }
 
@@ -258,6 +256,12 @@ export class FormComponent implements OnInit, OnChanges {
 
   public questionsFormArr(id: number): FormArray {
     return (this.formGroup.get('Criterias') as FormArray).at(id).get('Questions') as FormArray
+  }
+
+  public formulaIsValid(criteriaId: number, questionid: number): boolean {
+    const questionFormArr: FormArray = this.questionsFormArr(criteriaId);
+    
+    return (questionFormArr.at(questionid).get('Formula') as FormControl).hasError('pattern');
   }
 
   addNewCriteria() {
@@ -343,14 +347,8 @@ export class FormComponent implements OnInit, OnChanges {
         sequence: criteria.Sequence
       }) 
     })
+    console.log(criterias);
     
-    this.criteriaService.updateArray(criterias).subscribe({
-      next: (data) => {
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
     
     let questions: QuestionPut[] = new Array<QuestionPut>;
     this.criteriasFormArr.controls.forEach((criteriaControl, index) =>{
@@ -369,7 +367,6 @@ export class FormComponent implements OnInit, OnChanges {
         });
       });
     });
-    console.log(questions);
     this.questionService.updateArray(questions).subscribe({
         next: (data) => {
         },
@@ -413,7 +410,6 @@ export class FormComponent implements OnInit, OnChanges {
                 });
               })
             });
-            console.log(questions);
             this.questionService.createArray(questions).subscribe({
               next: (data) => {
               this.router.navigate(["/forms"])
@@ -432,10 +428,6 @@ export class FormComponent implements OnInit, OnChanges {
         console.log(error);
       },
     })
-  }
-
-  private getRegular(): string{
-    return "" 
   }
 }
 

@@ -2,9 +2,7 @@
   <div>
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h1>Недавние анкеты:</h1>
-      <button mat-icon-button routerLink="/form/create">
-        <mat-icon>add</mat-icon>
-      </button>
+      
       </div>
       <mat-divider></mat-divider>
       <div class="surveys-container">
@@ -17,16 +15,24 @@
               <img mat-card-image src="assets/images/document.png" alt="Photo of a Shiba Inu">
               <mat-card-content>
                 <p>
+                  <label>Город: </label>
+                  <label>{{item.cityName}}</label>
+                </p>
+                <p >
                   <label>Дата назначения: </label>
                   <label>{{item.appointmentDate| date : "EE, d MMMM H:mm"}}</label>
                 </p>
-                <p>
+                <p *ngIf="!item.completed">
                   <label>Дата начала: </label>
                   <label>{{item.startDate | date : "EE, d MMMM H:mm"}}</label>
                 </p>
-                <p>
+                <p *ngIf="!item.completed">
                   <label>Дата окончания: </label>
                   <label>{{item.endDate | date : "EE, d MMMM H:mm"}}</label>
+                </p>
+                <p *ngIf="item.completed">
+                  <label>Дата прохождения: </label>
+                  <label>{{item.completionDate | date : "EE, d MMMM H:mm"}}</label>
                 </p>
               </mat-card-content>
               <mat-card-actions align="end" *ngIf="router.url == '/admin/surveys'">

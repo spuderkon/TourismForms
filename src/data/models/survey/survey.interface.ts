@@ -12,13 +12,13 @@ export interface Survey {
     completionDate: string;
     endDate: string;
     completed: boolean;
-    municipality: string;
+    municipalityName: string;
     municipalityId: number;
-    city: string;
+    cityName: string;
     cityId: number;
     comment: string;
     answers: Answer[];
     cityNavigation: City;
     form: Form;
-    municipalityNavigation: Municipality;
+    municipality: Municipality;
 }
